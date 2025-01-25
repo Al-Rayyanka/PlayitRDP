@@ -10,10 +10,12 @@ jobs:
     steps:
     - name: Download
       run: Invoke-WebRequest https://github.com/playit-cloud/playit-agent/releases/download/v0.15.26/playit-windows-x86_64-signed.exe -OutFile "$env:USERPROFILE\playit.exe"
-    - name: Auth
-      run: .\playit.exe authtoken $Env:PLAYIT_AUTH_KEY
+    - name: Start Playit and Set Up RDP Tunnel
       env:
-        PLAYIT_AUTH_KEY: ${{ secrets.PL }}
+        PLAYIT_AUTH_KEY: ${{ secrets.PL }} 
+      run: |
+        Start-Process -FilePath "$env:USERPROFILE\playit.exe" -ArgumentList "--secret $env:PLAYIT_AUTH_KEY" -NoNewWindow -Wait
+        Start-Process -FilePath "$env:USERPROFILE\playit.exe" -NoNewWindow
     - name: Enable TS
       run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
     - run: Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
