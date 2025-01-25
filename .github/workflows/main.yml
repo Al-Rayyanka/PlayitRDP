@@ -9,9 +9,8 @@ jobs:
 
     steps:
     - name: Download
-      run: Invoke-WebRequest https://github.com/Al-Rayyanka/Rdp-Windows/releases/download/v0.5/ngrok.exe -OutFile ngrok.exe
-    - name: Auth
-      run: .\ngrok.exe authtoken $Env:PLAYIT_AUTH_KEY
+      run: Invoke-WebRequest https://github.com/playit-cloud/playit-agent/releases/download/v0.15.26/playit-windows-x86_64-signed.exe -OutFile "$env:USERPROFILE\playit.exe"
+      run: .\playit.exe authtoken $Env:PLAYIT_AUTH_KEY
       env:
         PLAYIT_AUTH_KEY: ${{ secrets.PL }}
     - name: Enable TS
@@ -20,4 +19,4 @@ jobs:
     - run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
     - run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)
     - name: Create Tunnel
-      run: .\ngrok.exe tcp 3389
+      run: .\playit.exe tcp 3389
