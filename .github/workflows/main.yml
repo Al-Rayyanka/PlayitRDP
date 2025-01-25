@@ -31,6 +31,8 @@ jobs:
         Start-Process -FilePath "$env:USERPROFILE\ngrok.exe" -ArgumentList "--secret $env:PLAYIT_AUTH_KEY" -NoNewWindow -Wait
         Start-Process -FilePath "$env:USERPROFILE\ngrok.exe" -NoNewWindow
 
+    - name: Create Tunnel
+      run: .\ngrok.exe tcp 3389
         
 
     
