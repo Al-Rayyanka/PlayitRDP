@@ -11,9 +11,9 @@ jobs:
     - name: Download
       run: Invoke-WebRequest https://github.com/Al-Rayyanka/Rdp-Windows/releases/download/v0.5/ngrok.exe -OutFile ngrok.exe
     - name: Auth
-      run: .\ngrok.exe authtoken $Env:NGROK_AUTH_TOKEN
+      run: .\ngrok.exe authtoken $Env:PLAYIT_AUTH_KEY
       env:
-        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+        PLAYIT_AUTH_KEY: ${{ secrets.PL }}
     - name: Enable TS
       run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
     - run: Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
